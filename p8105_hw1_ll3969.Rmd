@@ -7,26 +7,29 @@ date: "2026-09-20"
 
 # Problem 1
 
-```{r}
+```{r setup, message = FALSE}
 library(tidyverse)
 data("penguins", package = "palmerpenguins")
 ```
 
-The `penguins` dataset contains measurements and characteristics of penguins from three species (Adelie, Chinstrap, and Gentoo) observed on the islands of Biscoe, Dream, and Torgersen. Important variables include `species`, `island`, `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, `body_mass_g`, `sex`, and `year`. 
+The `penguins` dataset contains measurements and characteristics of penguins from three species (`r levels(pull(penguins, species))`), observed on the islands of `r levels(pull(penguins, island))`.
 
-The dataset contains `r nrow(penguins)` observations and `r ncol(penguins)` variables. The mean flipper length is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)` mm.
+Important variables include `species`, `island`, `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, `body_mass_g`, `sex`, and `year`. 
 
-```{r}
-ggp_penguins = 
-  ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm)) + 
-  geom_point(aes(color = species))
+The dataset contains `r nrow(penguins)` observations and `r ncol(penguins)` variables. The mean flipper length is `r round(mean(pull(penguins, flipper_length_mm), na.rm = TRUE), 2)` mm.
 
-ggsave("ggp_penguins.pdf", ggp_penguins)
+## Scatterplot
+
+```{r flipper_length_plot}
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + 
+  geom_point()
+
+ggsave("ggp_penguins.pdf")
 ```
 
 # Problem 2
 
-```{r}
+```{r p2_df_setup}
 set.seed(1)
 
 samp_df = 
@@ -34,9 +37,7 @@ samp_df =
     random_samp = rnorm(10),
     vec_logical = random_samp > 0,
     vec_char = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
-    vec_factor = factor(
-      c("a", "b", "c", "a", "b", "c", "a", "b", "c", "a")
-    )
+    vec_factor = factor(c("a", "b", "c", "a", "b", "c", "a", "b", "c", "a"))
   )
 
 mean(pull(samp_df, random_samp))
