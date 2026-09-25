@@ -8,11 +8,20 @@ date: "2026-09-20"
 # Problem 1
 
 ```{r}
+library(tidyverse)
 data("penguins", package = "palmerpenguins")
-
-names(penguins)
-head(penguins)
-nrow(penguins)
-ncol(penguins)
 ```
+
+The `penguins` dataset contains measurements and characteristics of penguins from three species (Adelie, Chinstrap, and Gentoo) observed on the islands of Biscoe, Dream, and Torgersen. Important variables include `species`, `island`, `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, `body_mass_g`, `sex`, and `year`. 
+
+The dataset contains `r nrow(penguins)` observations and `r ncol(penguins)` variables. The mean flipper length is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`
+
+```{r}
+ggp_penguins = 
+  ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm)) + 
+  geom_point(aes(color = species))
+
+ggsave("ggp_penguins.pdf", ggp_penguins)
+```
+
 
