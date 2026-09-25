@@ -1,7 +1,7 @@
 ---
 title: "Homework 1"
 author: "Lauren Littig (LL3969)"
-output: html_document
+output: github_document
 date: "2026-09-20"
 ---
 
@@ -14,7 +14,7 @@ data("penguins", package = "palmerpenguins")
 
 The `penguins` dataset contains measurements and characteristics of penguins from three species (Adelie, Chinstrap, and Gentoo) observed on the islands of Biscoe, Dream, and Torgersen. Important variables include `species`, `island`, `bill_length_mm`, `bill_depth_mm`, `flipper_length_mm`, `body_mass_g`, `sex`, and `year`. 
 
-The dataset contains `r nrow(penguins)` observations and `r ncol(penguins)` variables. The mean flipper length is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`
+The dataset contains `r nrow(penguins)` observations and `r ncol(penguins)` variables. The mean flipper length is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)` mm.
 
 ```{r}
 ggp_penguins = 
@@ -27,6 +27,8 @@ ggsave("ggp_penguins.pdf", ggp_penguins)
 # Problem 2
 
 ```{r}
+set.seed(1)
+
 samp_df = 
   tibble(
     random_samp = rnorm(10),
@@ -44,9 +46,9 @@ mean(pull(samp_df, vec_factor))
 
 ```
 
-I cannot take the mean of `vec_char` because character strings cannot be averages, nor can I take the mean of `vec_factor` because factors are categorical variables.
+I can take the mean of `random_samp` because it is numeric and the mean of `vec_logical` because R treats `TRUE` as 1 and `FALSE` as 0. Therefore, the mean of `vec_logical` represents the proportion of observations in `random_samp` that are greater than 0. I cannot take the mean of `vec_char` because character strings cannot be averaged, nor can I take the mean of `vec_factor` because factors are categorical variables.
 
-```{r results = "hide"}
+```{r results = "hide", warning = FALSE}
 as.numeric(pull(samp_df, vec_logical))
 as.numeric(pull(samp_df, vec_char))
 as.numeric(pull(samp_df, vec_factor))
