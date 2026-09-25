@@ -389,6 +389,48 @@ ggsave(&quot;ggp_penguins.pdf&quot;, ggp_penguins)</code></pre>
 <pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
 ## (`geom_point()`).</code></pre>
 </div>
+<div id="problem-2" class="section level1">
+<h1>Problem 2</h1>
+<pre class="r"><code>samp_df = 
+  tibble(
+    random_samp = rnorm(10),
+    vec_logical = random_samp &gt; 0,
+    vec_char = c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;, &quot;f&quot;, &quot;g&quot;, &quot;h&quot;, &quot;i&quot;, &quot;j&quot;),
+    vec_factor = factor(
+      c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;a&quot;)
+    )
+  )
+
+mean(pull(samp_df, random_samp))</code></pre>
+<pre><code>## [1] 0.1138734</code></pre>
+<pre class="r"><code>mean(pull(samp_df, vec_logical))</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>mean(pull(samp_df, vec_char))</code></pre>
+<pre><code>## Warning in mean.default(pull(samp_df, vec_char)): argument is not numeric or
+## logical: returning NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(pull(samp_df, vec_factor))</code></pre>
+<pre><code>## Warning in mean.default(pull(samp_df, vec_factor)): argument is not numeric or
+## logical: returning NA</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p>I cannot take the mean of <code>vec_char</code> because character
+strings cannot be averages, nor can I take the mean of
+<code>vec_factor</code> because factors are categorical variables.</p>
+<pre class="r"><code>as.numeric(pull(samp_df, vec_logical))
+as.numeric(pull(samp_df, vec_char))</code></pre>
+<pre><code>## Warning: NAs introduced by coercion</code></pre>
+<pre class="r"><code>as.numeric(pull(samp_df, vec_factor))</code></pre>
+<p>Applying <code>as.numeric()</code> to the logical variable converts
+<code>TRUE</code> and <code>FALSE</code> to 1 and 0, respectively.
+Applying <code>as.numeric()</code> to the character variable produces
+<code>NA</code> values because the character strings cannot be
+interpreted as numbers. Applying <code>as.numeric()</code> to the factor
+variable returns the underlying integer codes assigned to its factor
+levels rather than the original labels. This helps explain why taking
+the mean of the logical variable works, while taking the mean of the
+character and factor variables does not directly produce a meaningful
+result.</p>
+</div>
 
 
 
